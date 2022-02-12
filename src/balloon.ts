@@ -7,9 +7,7 @@ const BALLOON_COUNT = 5
 
 export class Balloon extends hitbox.HitBox<{ color: p5.Color }> {
   constructor() {
-    super({
-      color: null,
-    })
+    super({ color: null })
 
     this.on({
       name: "setup",
@@ -52,7 +50,7 @@ export class Balloon extends hitbox.HitBox<{ color: p5.Color }> {
           noStroke()
         }
         fill(data.color)
-        circle(this.x, this.y, this.data.size.x)
+        circle(this.x + this.width / 2, this.y + this.height / 2, this.width)
       },
     })
 

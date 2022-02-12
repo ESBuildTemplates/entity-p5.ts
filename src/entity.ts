@@ -24,6 +24,7 @@ export interface EntityEvents<Data extends any> {
 
 export class Entity<Data extends any> {
   private _isSetup = false
+  private zIndex = 0
   private parent?: Entity<any>
   private children = new Set<Entity<any>>()
   private listeners: EntityListener<Data, EntityEventName<Data>>[] = []
@@ -71,6 +72,7 @@ export class Entity<Data extends any> {
     for (const child of children) {
       child.parent = this
       this.children.add(child)
+      if (this.isSetup) child.setup()
     }
   }
 
@@ -79,7 +81,8 @@ export class Entity<Data extends any> {
       listener.callback(this.data)
     }
 
-    for (const child of this.children) child[name]()
+    for (const child of [...this.children].sort((a, b) => a.zIndex - b.zIndex))
+      child[name]()
   }
 
   private getListenersByName<Name extends EntityEventName<Data>>(name: Name) {
