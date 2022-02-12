@@ -18,37 +18,49 @@ export interface EntityEvents<Data extends any> {
   draw: (data: Data) => unknown
   update: (data: Data) => unknown
   teardown: (data: Data) => unknown
+  mousePressed: (data: Data) => unknown
+  mouseReleased: (data: Data) => unknown
 }
 
 export class Entity<Data extends any> {
+  private _isSetup = false
   private parent?: Entity<any>
-  private children: Entity<any>[]
+  private children = new Set<Entity<any>>()
   private listeners: EntityListener<Data, EntityEventName<Data>>[] = []
 
   constructor(public data: Data) {}
 
+  get isSetup() {
+    return this._isSetup
+  }
+
   setup() {
-    for (const listener of this.getListenersByName("setup")) {
-      listener.callback(this.data)
-    }
+    if (this.isSetup) throw new Error("Entity is already setup")
+    this.childrenCalling("setup")
+    this._isSetup = true
   }
 
   draw() {
-    for (const listener of this.getListenersByName("draw")) {
-      listener.callback(this.data)
-    }
+    if (this.isSetup) this.childrenCalling("draw")
   }
 
   update() {
-    for (const listener of this.getListenersByName("update")) {
-      listener.callback(this.data)
-    }
+    if (this.isSetup) this.childrenCalling("update")
   }
 
   teardown() {
-    for (const listener of this.getListenersByName("teardown")) {
-      listener.callback(this.data)
-    }
+    if (!this.isSetup) throw new Error("Entity must be setup before")
+    if (this.parent) this.parent.children.delete(this)
+    this.childrenCalling("teardown")
+    this._isSetup = false
+  }
+
+  mouseReleased() {
+    this.childrenCalling("mouseReleased")
+  }
+
+  mousePressed() {
+    this.childrenCalling("mousePressed")
   }
 
   on<Name extends EntityEventName<Data>>(listener: EntityListener<Data, Name>) {
@@ -56,12 +68,18 @@ export class Entity<Data extends any> {
   }
 
   addChild(...children: Entity<any>[]) {
-    this.children.push(
-      ...children.map((child) => {
-        child.parent = this
-        return child
-      })
-    )
+    for (const child of children) {
+      child.parent = this
+      this.children.add(child)
+    }
+  }
+
+  private childrenCalling(name: EntityEventName<Data>) {
+    for (const listener of this.getListenersByName(name)) {
+      listener.callback(this.data)
+    }
+
+    for (const child of this.children) child[name]()
   }
 
   private getListenersByName<Name extends EntityEventName<Data>>(name: Name) {
