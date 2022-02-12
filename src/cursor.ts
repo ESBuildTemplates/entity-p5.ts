@@ -1,37 +1,36 @@
-import * as vector from "./vector"
-import * as entity from "./entity"
+import * as hitbox from "./hitbox"
 
-const TAIL_LENGTH = 100
-const CURSOR_RADIUS = 15
+const HISTORY_LENGTH = 100
 
-export const cursor = new entity.Entity<vector.Vector[]>([])
+class Cursor extends hitbox.HitEllipse {
+  public history: [x: number, y: number][] = []
 
-cursor.on({
-  name: "update",
-  callback: (oldPos) => {
-    oldPos.push({
-      x: mouseX,
-      y: mouseY,
-    })
-    while (oldPos.length > TAIL_LENGTH) oldPos.shift()
-  },
-})
+  constructor() {
+    super(0, 0, 15)
+  }
 
-cursor.on({
-  name: "draw",
-  callback: (oldPos) => {
-    let lastPos = oldPos[0]
-    for (const pos of oldPos) {
-      const index = oldPos.indexOf(pos)
-      stroke(floor(map(index, oldPos.length, 0, 255, 0)))
-      strokeWeight(floor(map(index, oldPos.length, 0, CURSOR_RADIUS / 2, 0)))
-      line(lastPos.x, lastPos.y, pos.x, pos.y)
-      lastPos = pos
+  update() {
+    this.history.push([this.x, this.y])
+    this.x = mouseX
+    this.y = mouseY
+    while (this.history.length > HISTORY_LENGTH) this.history.shift()
+  }
+
+  draw() {
+    let last = this.history[0]
+    for (const pos of this.history) {
+      const index = this.history.indexOf(pos)
+      stroke(floor(map(index, this.history.length, 0, 255, 0)))
+      strokeWeight(
+        floor(map(index, this.history.length, 0, this.diameter / 2, 0))
+      )
+      line(...last, ...pos)
+      last = pos
     }
     fill(255)
     noStroke()
-    circle(mouseX, mouseY, CURSOR_RADIUS)
-  },
-})
+    circle(mouseX, mouseY, this.diameter)
+  }
+}
 
-entity.rootEntity.addChild(cursor)
+export const cursor = new Cursor()

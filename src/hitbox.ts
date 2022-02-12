@@ -1,52 +1,34 @@
 import * as entity from "./entity"
-import * as vector from "./vector"
 
-export interface HitBoxOptions {
-  position: vector.Vector
-  size: vector.Vector
-}
-
-export class HitBox<Data extends object> extends entity.Entity<
-  Data & HitBoxOptions
-> {
-  constructor(data: Data) {
-    super({
-      position: null,
-      size: null,
-      ...data,
-    })
-
-    this.on({
-      name: "setup",
-      callback: (data) => {
-        data.position = createVector()
-        data.size = createVector()
-      },
-    })
+export class HitBox extends entity.Entity {
+  constructor(public x = 0, public y = 0, public width = 0, public height = 0) {
+    super()
   }
 
-  get x(): number {
-    return this.data.position.x
+  get center(): [x: number, y: number] {
+    return [this.x + this.width / 2, this.y + this.height / 2]
   }
 
-  get y(): number {
-    return this.data.position.y
-  }
-
-  get width() {
-    return this.data.size.x
-  }
-
-  get height() {
-    return this.data.size.y
-  }
-
-  isHovered(): boolean {
+  get isHovered(): boolean {
     return (
       mouseX > this.x &&
       mouseX < this.x + this.width &&
       mouseY > this.y &&
       mouseY < this.y + this.height
     )
+  }
+}
+
+export class HitEllipse extends HitBox {
+  constructor(x = 0, y = 0, public diameter = 0) {
+    super(x, y, diameter, diameter)
+  }
+
+  get center(): [x: number, y: number] {
+    return [this.x, this.y]
+  }
+
+  get isHovered(): boolean {
+    return dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2
   }
 }

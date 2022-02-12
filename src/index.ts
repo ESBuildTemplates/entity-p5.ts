@@ -16,7 +16,7 @@ export function setup() {
     Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   )
 
-  entity.rootEntity.setup()
+  entity.Entity.root._setup()
 }
 
 //let frameIndex = 0
@@ -26,8 +26,8 @@ export function draw() {
 
   background(20)
 
-  entity.rootEntity.draw()
-  entity.rootEntity.update()
+  entity.Entity.root._draw()
+  entity.Entity.root._update()
   //if (SKIPPED_FRAMES % frameIndex) entity.rootEntity.update()
 }
 
@@ -42,8 +42,8 @@ export function draw() {
 export function keyPressed() {}
 export function keyReleased() {}
 export function mousePressed() {
-  entity.rootEntity.mousePressed()
+  entity.Entity.root._mousePressed()
 }
 export function mouseReleased() {
-  entity.rootEntity.mouseReleased()
+  entity.Entity.root._mouseReleased()
 }
