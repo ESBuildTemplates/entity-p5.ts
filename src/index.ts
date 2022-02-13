@@ -24,16 +24,11 @@ export function draw() {
   background(20)
 
   game.draw()
-  game.update()
 }
 
-// todo: add framerate limit setting (using Data.now())
-// fixme: not called on update
-// function tick() {
-//   entity.rootEntity.update()
-//
-//   requestAnimationFrame(tick)
-// }
+export function update(timestamp: number) {
+  game.update()
+}
 
 export function keyPressed() {}
 export function keyReleased() {}
@@ -44,5 +39,7 @@ export function mouseReleased() {
   game.mouseReleased()
 }
 
-// debug imports
+/**
+ * debug imports (accessible from frontend console with `app.root`)
+ */
 export const root = game

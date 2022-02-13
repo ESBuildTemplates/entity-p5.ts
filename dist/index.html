@@ -15,11 +15,17 @@
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>-->
     <script src="bundle.js"></script>
     <script>
+      let time
+
       function setup() {
         app.setup()
       }
       function draw() {
         app.draw()
+      }
+      function update(timestamp) {
+        app.update(timestamp)
+        window.requestAnimationFrame(update)
       }
       function keyPressed() {
         app.keyPressed()
@@ -33,6 +39,8 @@
       function mouseReleased() {
         app.mouseReleased()
       }
+
+      window.requestAnimationFrame(update)
     </script>
   </body>
 </html>
