@@ -1,7 +1,7 @@
-import * as entity from "../lib/entity"
-import * as balloon from "./balloon"
+import { Balloon } from "./balloon"
+import { Entity } from "../lib/entity"
 
-export class Balloons extends entity.Entity {
+export class Balloons extends Entity {
   constructor(private count: number) {
     super()
     Balloons.root.addChild(this)
@@ -9,9 +9,7 @@ export class Balloons extends entity.Entity {
 
   onSetup() {
     for (let i = 0; i < this.count; i++) {
-      this.addChild(new balloon.Balloon())
+      this.addChild(new Balloon())
     }
   }
 }
-
-export const balloons = new Balloons(1)

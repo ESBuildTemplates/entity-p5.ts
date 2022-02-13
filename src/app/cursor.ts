@@ -1,8 +1,8 @@
-import * as hitbox from "./hitbox"
+import { Circle } from "../lib/shape"
 
 const HISTORY_LENGTH = 100
 
-class Cursor extends hitbox.HitEllipse {
+export class Cursor extends Circle {
   public history: [x: number, y: number][] = []
 
   constructor() {
@@ -22,16 +22,9 @@ class Cursor extends hitbox.HitEllipse {
     for (const pos of this.history) {
       const index = this.history.indexOf(pos)
       stroke(floor(map(index, this.history.length, 0, 255, 0)))
-      strokeWeight(
-        floor(map(index, this.history.length, 0, this.diameter / 2, 0))
-      )
+      strokeWeight(floor(map(index, this.history.length, 0, this.diameter, 0)))
       line(...last, ...pos)
       last = pos
     }
-    fill(255)
-    noStroke()
-    circle(mouseX, mouseY, this.diameter)
   }
 }
-
-export const cursor = new Cursor()

@@ -1,3 +1,5 @@
-export const context = {
-  score: 0,
+export class Game {
+  score: number
 }
+
+export const game = new Game()

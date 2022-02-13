@@ -1,29 +1,27 @@
-import * as p5 from "p5"
-import * as hitbox from "./hitbox"
-import * as game from "./game"
+import { Circle } from "../lib/shape"
+import { game } from "./game"
 
-export class Balloon extends hitbox.HitEllipse {
-  public color: p5.Color
-
-  onSetup() {
-    this.diameter = random(40, 60)
-    this.color = color(random(100, 200), random(100, 200), random(100, 200))
-    this.x = random(0, width)
-    this.y = random(0, height)
+export class Balloon extends Circle {
+  constructor() {
+    super(random(0, width), random(0, height), random(40, 60), {
+      fill: color(random(100, 200), random(100, 200), random(100, 200)),
+      stroke: false,
+    })
   }
 
-  onDraw() {
+  onUpdate() {
     if (this.isHovered) {
-      stroke(255)
+      this.settings.stroke = {
+        color: color(255),
+        weight: 5,
+      }
     } else {
-      noStroke()
+      this.settings.stroke = false
     }
-    fill(this.color)
-    circle(...this.center, this.diameter)
   }
 
   onTeardown() {
-    game.context.score++
+    game.score++
   }
 
   onMouseReleased() {

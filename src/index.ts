@@ -3,9 +3,8 @@
 
 import * as entity from "./lib/entity"
 
-import "./app/cursor"
-import "./app/balloon"
-import "./app/balloons"
+import { Cursor } from "./app/cursor"
+import { Balloons } from "./app/balloons"
 
 document.addEventListener("contextmenu", (event) => event.preventDefault())
 
@@ -14,6 +13,9 @@ export function setup() {
     Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   )
+
+  new Balloons(1)
+  new Cursor()
 
   entity.Entity.setup()
   entity.Entity.schema(2)
