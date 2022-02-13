@@ -1,10 +1,11 @@
+import { game } from "./game"
 import { Balloon } from "./balloon"
-import { Entity } from "../lib/entity"
+import { Entity } from "entity-p5"
 
 export class Balloons extends Entity {
   constructor(private count: number) {
     super()
-    Balloons.root.addChild(this)
+    game.addChild(this)
   }
 
   onSetup() {

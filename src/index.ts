@@ -1,8 +1,7 @@
 /// @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-import * as entity from "./lib/entity"
-
+import { game } from "./app/game"
 import { Cursor } from "./app/cursor"
 import { Balloons } from "./app/balloons"
 
@@ -17,15 +16,15 @@ export function setup() {
   new Balloons(1)
   new Cursor()
 
-  entity.Entity.setup()
-  entity.Entity.schema(2)
+  game.setup()
+  game.schema(2)
 }
 
 export function draw() {
   background(20)
 
-  entity.Entity.draw()
-  entity.Entity.update()
+  game.draw()
+  game.update()
 }
 
 // todo: add framerate limit setting (using Data.now())
@@ -39,11 +38,11 @@ export function draw() {
 export function keyPressed() {}
 export function keyReleased() {}
 export function mousePressed() {
-  entity.Entity.mousePressed()
+  game.mousePressed()
 }
 export function mouseReleased() {
-  entity.Entity.mouseReleased()
+  game.mouseReleased()
 }
 
-export const root = entity.Entity.root
-export const Entity = entity.Entity
+// debug imports
+export const root = game

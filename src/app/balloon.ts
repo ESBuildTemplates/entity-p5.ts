@@ -1,4 +1,4 @@
-import { Circle } from "../lib/shape"
+import { Circle } from "entity-p5"
 import { game } from "./game"
 
 export class Balloon extends Circle {

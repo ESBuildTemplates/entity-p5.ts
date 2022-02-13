@@ -1,4 +1,5 @@
-import { Circle } from "../lib/shape"
+import { game } from "./game"
+import { Circle } from "entity-p5"
 
 const HISTORY_LENGTH = 100
 
@@ -7,7 +8,7 @@ export class Cursor extends Circle {
 
   constructor() {
     super(0, 0, 15)
-    Cursor.root.addChild(this)
+    game.addChild(this)
   }
 
   onUpdate() {
