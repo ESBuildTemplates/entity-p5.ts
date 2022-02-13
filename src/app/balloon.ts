@@ -2,19 +2,17 @@ import * as p5 from "p5"
 import * as hitbox from "./hitbox"
 import * as game from "./game"
 
-const BALLOON_COUNT = 5
-
 export class Balloon extends hitbox.HitEllipse {
   public color: p5.Color
 
-  setup() {
+  onSetup() {
     this.color = color(random(100, 200), random(100, 200), random(100, 200))
     this.x = random(0, width)
     this.y = random(0, height)
     this.diameter = random(40, 60)
   }
 
-  draw() {
+  onDraw() {
     if (this.isHovered) {
       stroke(255)
     } else {
@@ -24,22 +22,16 @@ export class Balloon extends hitbox.HitEllipse {
     circle(...this.center, this.diameter)
   }
 
-  teardown() {
-    balloons.delete(this)
+  onTeardown() {
+    game.context.score++
+    if (this.parent.children.length > 2)
+      this.parent.stopTransmission("mouseReleased")
   }
 
-  mousePressed() {
+  onMouseReleased() {
     if (this.isHovered) {
+      this.parent.addChild(new Balloon())
       this.teardown()
-      const newBalloon = new Balloon()
-      balloons.add(newBalloon)
-      game.context.score++
     }
   }
-}
-
-export const balloons = new Set<Balloon>()
-
-for (let i = 0; i < BALLOON_COUNT; i++) {
-  balloons.add(new Balloon())
 }

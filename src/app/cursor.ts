@@ -7,16 +7,17 @@ class Cursor extends hitbox.HitEllipse {
 
   constructor() {
     super(0, 0, 15)
+    Cursor.root.addChild(this)
   }
 
-  update() {
+  onUpdate() {
     this.history.push([this.x, this.y])
     this.x = mouseX
     this.y = mouseY
     while (this.history.length > HISTORY_LENGTH) this.history.shift()
   }
 
-  draw() {
+  onDraw() {
     let last = this.history[0]
     for (const pos of this.history) {
       const index = this.history.indexOf(pos)

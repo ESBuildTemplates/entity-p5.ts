@@ -1,12 +1,11 @@
 /// @ts-check
 /// <reference path="../node_modules/@types/p5/global.d.ts" />
 
-import * as entity from "./entity"
+import * as entity from "./lib/entity"
 
-import "./cursor"
-import "./balloon"
-
-//const SKIPPED_FRAMES = 2
+import "./app/cursor"
+import "./app/balloon"
+import "./app/balloons"
 
 document.addEventListener("contextmenu", (event) => event.preventDefault())
 
@@ -16,19 +15,15 @@ export function setup() {
     Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   )
 
-  entity.Entity.root._setup()
+  entity.Entity.setup()
+  entity.Entity.schema(2)
 }
 
-//let frameIndex = 0
-
 export function draw() {
-  //frameIndex++
-
   background(20)
 
-  entity.Entity.root._draw()
-  entity.Entity.root._update()
-  //if (SKIPPED_FRAMES % frameIndex) entity.rootEntity.update()
+  entity.Entity.draw()
+  entity.Entity.update()
 }
 
 // todo: add framerate limit setting (using Data.now())
@@ -42,8 +37,11 @@ export function draw() {
 export function keyPressed() {}
 export function keyReleased() {}
 export function mousePressed() {
-  entity.Entity.root._mousePressed()
+  entity.Entity.mousePressed()
 }
 export function mouseReleased() {
-  entity.Entity.root._mouseReleased()
+  entity.Entity.mouseReleased()
 }
+
+export const root = entity.Entity.root
+export const Entity = entity.Entity
