@@ -30,18 +30,32 @@ export class Cursor extends Circle {
   }
 
   onMouseReleased() {
+    const stroke = {
+      color: color(255),
+      weight: this.diameter / 4,
+    }
+    const halo = new Circle(
+      mouseX,
+      mouseY,
+      0,
+      {
+        fill: false,
+        stroke
+      }
+    )
+
     this.addChild(
       new Animation({
         from: 0,
         to: this.diameter * 5,
         duration: 100,
         easing: easingSet.easeOutQuart,
+        onSetup: () => this.addChild(halo),
         onDraw: (value) => {
-          stroke(255)
-          strokeWeight(this.diameter / 4)
-          noFill()
-          circle(mouseX, mouseY, value)
-        }
+          halo.diameter = value
+          stroke.color = color(255, ((this.diameter * 5 - value) / (this.diameter * 5)) * 255)
+        },
+        onTeardown: () => this.removeChild(halo)
       })
     )
   }
