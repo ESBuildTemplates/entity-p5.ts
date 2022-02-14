@@ -1,5 +1,5 @@
 import { game } from "./game"
-import { Circle } from "entity-p5"
+import { Circle } from "@ghom/entity-p5"
 
 const HISTORY_LENGTH = 100
 

@@ -1,6 +1,6 @@
 import { game } from "./game"
 import { Balloon } from "./balloon"
-import { Entity } from "entity-p5"
+import { Entity } from "@ghom/entity-p5"
 
 export class Balloons extends Entity {
   constructor(private count: number) {
