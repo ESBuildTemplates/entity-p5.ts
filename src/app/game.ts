@@ -43,6 +43,9 @@ export class Game extends Entity {
               options.textSize = baseTextSize * Math.max(1, value + 0.5)
               options.fill = color(100, 255, 255, (1 - value) * 255)
             },
+            onTeardown: () => {
+              this.removeChild(text)
+            },
           })
         )
       } else if (this._score > score) {
@@ -57,6 +60,9 @@ export class Game extends Entity {
             onUpdate: (value) => {
               options.textSize = baseTextSize * Math.max(1, value + 0.5)
               options.fill = color(255, 100, 100, (1 - value) * 255)
+            },
+            onTeardown: () => {
+              this.removeChild(text)
             },
           })
         )
