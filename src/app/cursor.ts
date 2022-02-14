@@ -1,5 +1,5 @@
 import { game } from "./game"
-import { Circle } from "@ghom/entity-p5"
+import { Circle, Animation, easingSet } from "@ghom/entity-p5"
 
 const HISTORY_LENGTH = 100
 
@@ -27,5 +27,22 @@ export class Cursor extends Circle {
       line(...last, ...pos)
       last = pos
     }
+  }
+
+  onMouseReleased() {
+    this.addChild(
+      new Animation({
+        from: 0,
+        to: this.diameter * 5,
+        duration: 100,
+        easing: easingSet.easeOutQuart,
+        onDraw: (value) => {
+          stroke(255)
+          strokeWeight(this.diameter / 4)
+          noFill()
+          circle(mouseX, mouseY, value)
+        }
+      })
+    )
   }
 }
