@@ -13,8 +13,8 @@ export function setup() {
     Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   )
 
-  new Balloons(1)
-  new Cursor()
+  game.addChild(new Balloons(1))
+  game.addChild(new Cursor())
 
   game.setup()
   game.schema(2)

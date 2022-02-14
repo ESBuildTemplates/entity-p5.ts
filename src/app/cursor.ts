@@ -1,4 +1,3 @@
-import { game } from "./game"
 import { Circle, Animation, easingSet } from "@ghom/entity-p5"
 
 const HISTORY_LENGTH = 100
@@ -8,7 +7,6 @@ export class Cursor extends Circle {
 
   constructor() {
     super(0, 0, 15)
-    game.addChild(this)
   }
 
   onUpdate() {
@@ -34,15 +32,10 @@ export class Cursor extends Circle {
       color: color(255),
       weight: this.diameter / 4,
     }
-    const halo = new Circle(
-      mouseX,
-      mouseY,
-      0,
-      {
-        fill: false,
-        stroke
-      }
-    )
+    const halo = new Circle(mouseX, mouseY, 0, {
+      fill: false,
+      stroke,
+    })
 
     this.addChild(
       new Animation({
@@ -53,9 +46,12 @@ export class Cursor extends Circle {
         onSetup: () => this.addChild(halo),
         onDraw: (value) => {
           halo.diameter = value
-          stroke.color = color(255, ((this.diameter * 5 - value) / (this.diameter * 5)) * 255)
+          stroke.color = color(
+            255,
+            ((this.diameter * 5 - value) / (this.diameter * 5)) * 255
+          )
         },
-        onTeardown: () => this.removeChild(halo)
+        onTeardown: () => this.removeChild(halo),
       })
     )
   }
