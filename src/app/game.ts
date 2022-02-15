@@ -22,7 +22,7 @@ export class Game extends Entity {
       }
 
       const text = new Text(
-        `Score: ${this.score}`,
+        `Score: ${score}`,
         width / 2,
         height * 0.1,
         undefined,
