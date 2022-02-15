@@ -94,7 +94,7 @@ export class Game extends Entity {
     fill(90)
     textSize(height * 0.02)
     textAlign(LEFT, TOP)
-    text(this.schema(3), 20, 20)
+    text(this.schema(5), 20, 20)
   }
 }
 
