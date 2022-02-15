@@ -9,6 +9,8 @@ export class Game extends Entity {
 
   set score(score) {
     if (this._score !== score) {
+      const scoreUp = score > this._score
+
       const baseTextSize = height * 0.05
 
       const options: DrawableSettings = {
@@ -30,43 +32,25 @@ export class Game extends Entity {
         options
       )
 
-      if (this._score < score) {
-        this.addChild(
-          new Animation({
-            from: 0,
-            to: 1,
-            duration: 20,
-            onSetup: () => {
-              this.addChild(text)
-            },
-            onUpdate: (value) => {
-              options.textSize = baseTextSize * Math.max(1, value + 0.5)
-              options.fill = color(100, 255, 255, (1 - value) * 255)
-            },
-            onTeardown: () => {
-              this.removeChild(text)
-            },
-          })
-        )
-      } else if (this._score > score) {
-        this.addChild(
-          new Animation({
-            from: 0,
-            to: 1,
-            duration: 20,
-            onSetup: () => {
-              this.addChild(text)
-            },
-            onUpdate: (value) => {
-              options.textSize = baseTextSize * Math.max(1, value + 0.5)
-              options.fill = color(255, 100, 100, (1 - value) * 255)
-            },
-            onTeardown: () => {
-              this.removeChild(text)
-            },
-          })
-        )
-      }
+      this.addChild(
+        new Animation({
+          from: 0,
+          to: 1,
+          duration: 20,
+          onSetup: () => {
+            this.addChild(text)
+          },
+          onUpdate: (value) => {
+            options.textSize = baseTextSize * Math.max(1, value + 0.5)
+            options.fill = scoreUp
+              ? color(100, 255, 255, (1 - value) * 255)
+              : color(255, 100, 100, (1 - value) * 255)
+          },
+          onTeardown: () => {
+            this.removeChild(text)
+          },
+        })
+      )
 
       this._score = score
     }
