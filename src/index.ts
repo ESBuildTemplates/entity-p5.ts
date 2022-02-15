@@ -17,7 +17,6 @@ export function setup() {
   game.addChild(new Cursor())
 
   game.setup()
-  game.schema(2)
 }
 
 export function draw() {

@@ -78,6 +78,7 @@ export class Game extends Entity {
 
   onDraw() {
     this.drawScore()
+    this.drawSchema()
   }
 
   drawScore() {
@@ -86,6 +87,14 @@ export class Game extends Entity {
     textSize(height * 0.05)
     textAlign(CENTER, CENTER)
     text(`Score: ${this.score}`, width / 2, height * 0.1)
+  }
+
+  drawSchema() {
+    noStroke()
+    fill(90)
+    textSize(height * 0.02)
+    textAlign(LEFT, TOP)
+    text(this.schema(3), 20, 20)
   }
 }
 
