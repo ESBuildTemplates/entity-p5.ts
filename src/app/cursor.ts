@@ -1,4 +1,10 @@
-import { Circle, Animation, easingSet } from "@ghom/entity-p5"
+import {
+  Circle,
+  Animation,
+  easingSet,
+  Parallel,
+  Sequence,
+} from "@ghom/entity-p5"
 
 const HISTORY_LENGTH = 100
 

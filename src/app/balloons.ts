@@ -1,7 +1,7 @@
 import { Balloon } from "./balloon"
-import { Entity } from "@ghom/entity-p5"
+import { Base } from "@ghom/entity-p5"
 
-export class Balloons extends Entity {
+export class Balloons extends Base {
   constructor(private count: number) {
     super()
   }

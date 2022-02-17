@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/node": "^17.0.18",
     "@types/p5": "^1.4.0",
-    "esbuild": "^0.14.21",
+    "esbuild": "^0.14.22",
     "gulp": "^4.0.2",
     "gulp-esbuild": "^0.10.1",
     "prettier": "^2.5.1",
@@ -21,6 +21,6 @@
     "typescript": "^4.5.5"
   },
   "dependencies": {
-    "@ghom/entity-p5": "^1.0.9"
+    "@ghom/entity-p5": "^1.0.16"
   }
 }

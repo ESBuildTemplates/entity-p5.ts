@@ -1,6 +1,6 @@
-import { Entity, Text, Animation, DrawableSettings } from "@ghom/entity-p5"
+import { Base, Text, Animation, DrawableSettings } from "@ghom/entity-p5"
 
-export class Game extends Entity {
+export class Game extends Base {
   private _score = 0
 
   get score() {
@@ -40,7 +40,7 @@ export class Game extends Entity {
           onSetup: () => {
             this.addChild(text)
           },
-          onUpdate: (value) => {
+          onDraw: (value) => {
             options.textSize = baseTextSize * Math.max(1, value + 0.5)
             options.fill = scoreUp
               ? color(100, 255, 255, (1 - value) * 255)
