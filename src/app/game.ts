@@ -36,11 +36,11 @@ export class Game extends Base {
         new Animation({
           from: 0,
           to: 1,
-          duration: 20,
+          duration: 100,
           onSetup: () => {
             this.addChild(text)
           },
-          onDraw: (value) => {
+          onUpdate: (value) => {
             options.textSize = baseTextSize * Math.max(1, value + 0.5)
             options.fill = scoreUp
               ? color(100, 255, 255, (1 - value) * 255)

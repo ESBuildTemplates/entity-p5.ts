@@ -47,10 +47,10 @@ export class Cursor extends Circle {
       new Animation({
         from: 0,
         to: this.diameter * 5,
-        duration: 100,
+        duration: 200,
         easing: easingSet.easeOutQuart,
         onSetup: () => this.addChild(halo),
-        onDraw: (value) => {
+        onUpdate: (value) => {
           halo.diameter = value
           stroke.color = color(
             255,

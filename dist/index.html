@@ -19,6 +19,7 @@
 
       function setup() {
         app.setup()
+        window.requestAnimationFrame(update)
       }
       function draw() {
         app.draw()
@@ -39,8 +40,6 @@
       function mouseReleased() {
         app.mouseReleased()
       }
-
-      window.requestAnimationFrame(update)
     </script>
   </body>
 </html>
