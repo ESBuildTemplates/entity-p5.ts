@@ -20,13 +20,18 @@ export function setup() {
 }
 
 export function draw() {
+  if (!game.isSetup) {
+    frameRate(0)
+    return
+  }
+
   background(20)
 
   game.draw()
 }
 
-export function update(timestamp: number) {
-  game.update()
+export function update() {
+  if (game.isSetup) game.update(true)
 }
 
 export function keyPressed() {}
