@@ -1,4 +1,4 @@
-import { Base, Text, Animation, DrawableSettings } from "@ghom/entity-p5"
+import { Base, Animation } from "@ghom/entity-p5"
 
 export class Game extends Base {
   private _score = 0
@@ -13,41 +13,21 @@ export class Game extends Base {
 
       const baseTextSize = height * 0.05
 
-      const options: DrawableSettings = {
-        stroke: false,
-        fill: color(170),
-        textSize: baseTextSize,
-        textAlign: {
-          x: CENTER,
-          y: CENTER,
-        },
-      }
-
-      const text = new Text(
-        `Score: ${score}`,
-        width / 2,
-        height * 0.1,
-        undefined,
-        undefined,
-        options
-      )
-
       this.addChild(
         new Animation({
           from: 0,
           to: 1,
           duration: 100,
-          onSetup: () => {
-            this.addChild(text)
-          },
-          onUpdate: (value) => {
-            options.textSize = baseTextSize * Math.max(1, value + 0.5)
-            options.fill = scoreUp
-              ? color(100, 255, 255, (1 - value) * 255)
-              : color(255, 100, 100, (1 - value) * 255)
-          },
-          onTeardown: () => {
-            this.removeChild(text)
+          afterUpdate: (value) => {
+            noStroke()
+            fill(
+              scoreUp
+                ? color(100, 255, 255, (1 - value) * 255)
+                : color(255, 100, 100, (1 - value) * 255)
+            )
+            textAlign(CENTER, CENTER)
+            textSize(baseTextSize * Math.max(1, value + 0.5))
+            text(`Score: ${score}`, width / 2, height * 0.1)
           },
         })
       )
@@ -60,7 +40,7 @@ export class Game extends Base {
     super()
   }
 
-  onDraw() {
+  afterUpdate() {
     this.drawScore()
     this.drawSchema()
   }

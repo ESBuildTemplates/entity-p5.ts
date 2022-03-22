@@ -8,6 +8,12 @@ import { Background } from "./app/background"
 
 document.addEventListener("contextmenu", (event) => event.preventDefault())
 
+const meter = new FPSMeter(undefined, {
+  right: "3px",
+  left: "inherit",
+  graph: 1,
+})
+
 export function setup() {
   createCanvas(
     Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
@@ -15,23 +21,21 @@ export function setup() {
   )
 
   game.addChild(new Background())
-  game.addChild(new Balloons(1))
+  game.addChild(new Balloons(3))
   game.addChild(new Cursor())
 
   game.setup()
 }
 
-export function draw() {
-  if (!game.isSetup) {
+export function update() {
+  meter.tickStart()
+  if (game.isSetup) {
+    game.update(true)
+  } else {
     frameRate(0)
     return
   }
-
-  game.draw()
-}
-
-export function update() {
-  if (game.isSetup) game.update(true)
+  meter.tick()
 }
 
 export function keyPressed() {}

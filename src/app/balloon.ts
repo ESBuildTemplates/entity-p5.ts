@@ -1,36 +1,36 @@
-import { Circle } from "@ghom/entity-p5"
+import { Base } from "@ghom/entity-p5"
 import { game } from "./game"
 
-export class Balloon extends Circle {
-  constructor() {
-    super(random(0, width), random(0, height), random(40, 60), {
-      fill: color(random(100, 200), random(100, 200), random(100, 200)),
-      stroke: false,
-    })
-  }
+export class Balloon extends Base {
+  color = color(random(100, 200), random(100, 200), random(100, 200))
+  x = random(0, width)
+  y = random(0, height)
+  diameter = random(40, 60)
 
   onUpdate() {
+    fill(this.color)
     if (this.isHovered) {
-      this.settings.stroke = {
-        color: color(255),
-        weight: 5,
-      }
-    } else {
-      this.settings.stroke = false
-    }
+      stroke(255)
+      strokeWeight(5)
+    } else noStroke()
+    circle(this.x, this.y, this.diameter)
   }
 
   onTeardown() {
     game.score++
   }
 
-  onMouseReleased() {
+  onMousePressed() {
     if (this.isHovered) {
       if (this.parent.children.length > 1)
-        this.parent.stopTransmission("mouseReleased")
+        this.parent.stopTransmission("mousePressed")
 
       this.parent.addChild(new Balloon())
       this.teardown()
     }
+  }
+
+  get isHovered() {
+    return dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2
   }
 }

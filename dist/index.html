@@ -13,20 +13,14 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>-->
+    <script src="libs/fpsmeter.min.js"></script>
     <script src="bundle.js"></script>
     <script>
-      let time
-
       function setup() {
         app.setup()
-        window.requestAnimationFrame(update)
       }
       function draw() {
-        app.draw()
-      }
-      function update(timestamp) {
-        app.update(timestamp)
-        window.requestAnimationFrame(update)
+        app.update()
       }
       function keyPressed() {
         app.keyPressed()

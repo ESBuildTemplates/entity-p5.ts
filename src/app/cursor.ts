@@ -1,28 +1,23 @@
-import {
-  Circle,
-  Animation,
-  easingSet,
-  Parallel,
-  Sequence,
-} from "@ghom/entity-p5"
+import { Animation, easingSet, Parallel, Sequence, Base } from "@ghom/entity-p5"
 
 const HISTORY_LENGTH = 100
 
-export class Cursor extends Circle {
-  public history: [x: number, y: number][] = []
+export class Cursor extends Base {
+  x = 0
+  y = 0
+  diameter = 15
 
-  constructor() {
-    super(0, 0, 15)
-  }
+  public history: [x: number, y: number][] = []
 
   onUpdate() {
     this.history.push([this.x, this.y])
     this.x = mouseX
     this.y = mouseY
     while (this.history.length > HISTORY_LENGTH) this.history.shift()
+    this.draw()
   }
 
-  onDraw() {
+  draw() {
     let last = this.history[0]
     for (const pos of this.history) {
       const index = this.history.indexOf(pos)
@@ -34,14 +29,8 @@ export class Cursor extends Circle {
   }
 
   onMouseReleased() {
-    const stroke = {
-      color: color(255),
-      weight: this.diameter / 4,
-    }
-    const halo = new Circle(mouseX, mouseY, 0, {
-      fill: false,
-      stroke,
-    })
+    let x = mouseX
+    let y = mouseY
 
     this.addChild(
       new Animation({
@@ -49,15 +38,12 @@ export class Cursor extends Circle {
         to: this.diameter * 5,
         duration: 200,
         easing: easingSet.easeOutQuart,
-        onSetup: () => this.addChild(halo),
         onUpdate: (value) => {
-          halo.diameter = value
-          stroke.color = color(
-            255,
-            ((this.diameter * 5 - value) / (this.diameter * 5)) * 255
-          )
+          noFill()
+          stroke(255, ((this.diameter * 5 - value) / (this.diameter * 5)) * 255)
+          strokeWeight(this.diameter / 4)
+          circle(x, y, value)
         },
-        onTeardown: () => this.removeChild(halo),
       })
     )
   }
