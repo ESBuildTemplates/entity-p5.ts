@@ -4,6 +4,7 @@
 import { game } from "./app/game"
 import { Cursor } from "./app/cursor"
 import { Balloons } from "./app/balloons"
+import { Background } from "./app/background"
 
 document.addEventListener("contextmenu", (event) => event.preventDefault())
 
@@ -13,6 +14,7 @@ export function setup() {
     Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   )
 
+  game.addChild(new Background())
   game.addChild(new Balloons(1))
   game.addChild(new Cursor())
 
@@ -24,8 +26,6 @@ export function draw() {
     frameRate(0)
     return
   }
-
-  background(20)
 
   game.draw()
 }
